@@ -355,6 +355,21 @@ def clear_audit_trail():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to clear audit trail: {str(e)}")
 
+@app.post("/api/audit/seed")
+def seed_audit_trail():
+    try:
+        from seed_audit_history import generate_historical_logs, seed_database
+        from database import DB_PATH
+        entries = generate_historical_logs(36)
+        seed_database(db_path=DB_PATH, entries=entries)
+        return {
+            "status": "success",
+            "message": f"Successfully seeded {len(entries)} organic historical audit records",
+            "seeded_count": len(entries)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to seed audit trail: {str(e)}")
+
 @app.get("/api/metrics")
 def get_model_metrics():
     engine = get_risk_engine()

@@ -93,10 +93,26 @@ export default function AuditTrail({ refreshTrigger }) {
             <span>Auto-refresh (5s)</span>
           </label>
 
+          {/* Seed Sample History Button */}
+          <button
+            onClick={async () => {
+              try {
+                await fetch(`${API_BASE}/api/audit/seed`, { method: 'POST' });
+                fetchLogs();
+              } catch (err) {
+                console.error('Failed to seed logs:', err);
+              }
+            }}
+            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-semibold border border-slate-700 hover:border-cyan-500/40 transition-all flex items-center space-x-1.5"
+            title="Populate realistic historical audit trail for demo"
+          >
+            <span>+ Seed History (36 Txns)</span>
+          </button>
+
           {/* Clear Logs Button */}
           <button
             onClick={async () => {
-              if (window.confirm('Are you sure you want to clear all audit log entries for a fresh demo?')) {
+              if (window.confirm('Are you sure you want to clear all audit log entries?')) {
                 try {
                   await fetch(`${API_BASE}/api/audit/clear`, { method: 'POST' });
                   fetchLogs();
@@ -106,7 +122,7 @@ export default function AuditTrail({ refreshTrigger }) {
               }
             }}
             className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-rose-950/60 hover:text-rose-300 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-rose-700/60 transition-all flex items-center space-x-1.5"
-            title="Reset audit trail for demo"
+            title="Reset audit trail"
           >
             <span>Reset Trail</span>
           </button>
