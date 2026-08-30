@@ -19,7 +19,7 @@ def _get_data_path():
         os.path.join(curr_dir, "transactions.csv"),
         "data/transactions.csv",
         "backend/data/transactions.csv",
-        "d:/razorpay/risk-guard/backend/data/transactions.csv"
+        "risk-guard/backend/data/transactions.csv"
     ]
     for c in candidates:
         if os.path.exists(c):

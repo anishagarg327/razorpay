@@ -188,14 +188,22 @@ npm run dev
 ### 1. Executive Overview & 3-Step Architecture
 > *High-level executive dashboard showing value proposition, 3-step pipeline (Score → Explain → Audit), KPI cards, and financial impact chart.*
 
+![Executive Overview](./screenshots/executive-overview.png)
+
 ### 2. Live Risk Simulator with SHAP Explainability
 > *Interactive simulation sandbox with sliders, preset attacks, continuous risk gauge, and merchant audit rationale.*
+
+![Live Risk Simulator](./screenshots/live-simulator.png)
 
 ### 3. 1,000-Transaction Live Simulation & Precision-Recall Convergence
 > *Streaming benchmark engine plotting live convergence curves over 1,000 held-out test transactions with dynamic cost accounting.*
 
+![Batch CSV Scorer](./screenshots/batch-scorer.png)
+
 ### 4. Immutable SQLite Audit Trail
 > *Real-time regulatory audit trail with SHAP reasoning, search filters, and reset controls.*
+
+![Audit Trail](./screenshots/audit-trail.png)
 
 ---
 
