@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Upload, FileText, CheckCircle2, AlertTriangle, XCircle, ChevronDown, ChevronUp, Download, Sparkles, Filter, Play, RefreshCw, Zap, TrendingUp, DollarSign, ShieldAlert } from 'lucide-react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { API_BASE } from '../config';
 
 export default function CsvBatchScorer({ onBatchComplete }) {
   const [file, setFile] = useState(null);
@@ -33,7 +34,7 @@ export default function CsvBatchScorer({ onBatchComplete }) {
       const formData = new FormData();
       formData.append('file', fileToUpload);
 
-      const res = await fetch('http://localhost:8000/api/upload-csv', {
+      const res = await fetch(`${API_BASE}/api/upload-csv`, {
         method: 'POST',
         body: formData,
       });
@@ -58,11 +59,11 @@ export default function CsvBatchScorer({ onBatchComplete }) {
     setError(null);
     setSimStats(null);
     try {
-      const res = await fetch('http://localhost:8000/api/transactions/sample?limit=25');
+      const res = await fetch(`${API_BASE}/api/transactions/sample?limit=25`);
       if (!res.ok) throw new Error('Failed to load sample transactions');
       const sampleTxns = await res.json();
 
-      const batchRes = await fetch('http://localhost:8000/api/batch-predict', {
+      const batchRes = await fetch(`${API_BASE}/api/batch-predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(sampleTxns),
@@ -88,7 +89,7 @@ export default function CsvBatchScorer({ onBatchComplete }) {
     setError(null);
 
     try {
-      const res = await fetch('http://localhost:8000/api/simulation/test-batch?count=1000');
+      const res = await fetch(`${API_BASE}/api/simulation/test-batch?count=1000`);
       if (!res.ok) throw new Error('Failed to fetch test batch');
       const data = await res.json();
       const allTxns = data.transactions || [];

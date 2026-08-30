@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ShieldAlert, ShieldCheck, AlertTriangle, Sparkles, RefreshCw, Zap, Clock, Smartphone, MapPin, CreditCard, RotateCcw } from 'lucide-react';
+import { API_BASE } from '../config';
 
 const PRESETS = [
   {
@@ -70,7 +71,7 @@ export default function SingleTxnTester({ onPredictionComplete }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('http://localhost:8000/predict', {
+      const res = await fetch(`${API_BASE}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

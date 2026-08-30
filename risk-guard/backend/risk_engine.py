@@ -6,14 +6,26 @@ import shap
 
 class RiskEngine:
     def __init__(self, model_path="model.pkl"):
-        if not os.path.exists(model_path):
-            if os.path.exists(os.path.join("backend", model_path)):
-                model_path = os.path.join("backend", model_path)
-            elif os.path.exists(os.path.join("d:/razorpay/risk-guard/backend", model_path)):
-                model_path = os.path.join("d:/razorpay/risk-guard/backend", model_path)
+        curr_dir = os.path.dirname(os.path.abspath(__file__))
+        candidates = [
+            model_path,
+            os.path.join(curr_dir, model_path),
+            os.path.join(curr_dir, "model.pkl"),
+            os.path.join(os.getcwd(), model_path),
+            os.path.join(os.getcwd(), "backend", model_path)
+        ]
+        
+        resolved_path = None
+        for p in candidates:
+            if p and os.path.exists(p):
+                resolved_path = p
+                break
+                
+        if not resolved_path:
+            resolved_path = os.path.join(curr_dir, "model.pkl")
 
-        print(f"[*] Loading Risk Model bundle from: {model_path}")
-        self.bundle = joblib.load(model_path)
+        print(f"[*] Loading Risk Model bundle from: {resolved_path}")
+        self.bundle = joblib.load(resolved_path)
         self.pipeline = self.bundle["pipeline"]
         self.preprocessor = self.pipeline.named_steps["preprocessor"]
         self.classifier = self.pipeline.named_steps["classifier"]

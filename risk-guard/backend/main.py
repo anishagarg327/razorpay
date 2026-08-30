@@ -12,6 +12,20 @@ import numpy as np
 from database import init_db, log_prediction, get_audit_logs
 from risk_engine import get_risk_engine
 
+def _get_data_path():
+    curr_dir = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.join(curr_dir, "data", "transactions.csv"),
+        os.path.join(curr_dir, "transactions.csv"),
+        "data/transactions.csv",
+        "backend/data/transactions.csv",
+        "d:/razorpay/risk-guard/backend/data/transactions.csv"
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return os.path.join(curr_dir, "data", "transactions.csv")
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Initialize SQLite database schema
@@ -27,7 +41,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Enable CORS for local frontend dev server
+# Enable CORS for local and production Vercel frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -95,15 +109,8 @@ def predict_transaction_risk(txn: TransactionInput):
 
 @app.get("/api/simulation/test-batch")
 def get_simulation_test_batch(count: int = Query(default=1000, ge=10, le=2000)):
-    """
-    High-performance vectorized simulation endpoint: returns test transactions with model predictions
-    and ground truth labels for real-time live charting (<100ms response).
-    """
     try:
-        data_path = "d:/razorpay/risk-guard/backend/data/transactions.csv"
-        if not os.path.exists(data_path):
-            data_path = "data/transactions.csv"
-        
+        data_path = _get_data_path()
         df = pd.read_csv(data_path)
         test_df = df.tail(count).copy().reset_index(drop=True)
         
@@ -152,7 +159,6 @@ def get_simulation_test_batch(count: int = Query(default=1000, ge=10, le=2000)):
             else:
                 outcome = "TN"
 
-            # Contextual top reason
             reasons = []
             if row["shipping_billing_mismatch"] == 1 and row["device_change_flag"] == 1:
                 reasons.append("Compound Risk: Address mismatch AND new device signature")
@@ -345,10 +351,7 @@ def get_model_metrics():
 
 @app.get("/api/transactions/sample")
 def get_sample_transactions(limit: int = 25):
-    data_path = "d:/razorpay/risk-guard/backend/data/transactions.csv"
-    if not os.path.exists(data_path):
-        data_path = "data/transactions.csv"
-    
+    data_path = _get_data_path()
     if not os.path.exists(data_path):
         raise HTTPException(status_code=404, detail="Transactions dataset not found")
 

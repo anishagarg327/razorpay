@@ -5,7 +5,11 @@ import sqlite3
 import time
 from typing import List, Optional
 
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "risk_guard.db")
+# In Vercel / serverless environments, root is read-only so use /tmp
+if os.environ.get("VERCEL") or not os.access(os.path.dirname(os.path.abspath(__file__)), os.W_OK):
+    DB_PATH = "/tmp/risk_guard.db"
+else:
+    DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "risk_guard.db")
 
 def get_connection():
     conn = sqlite3.connect(DB_PATH)
@@ -58,7 +62,6 @@ def log_prediction(
             now_ts = datetime.datetime.now(datetime.timezone.utc)
             delta = (now_ts - last_ts).total_seconds()
             if delta < 1.5:
-                # Deduplicate and return previous ID
                 conn.close()
                 return last_record["id"]
         except Exception:

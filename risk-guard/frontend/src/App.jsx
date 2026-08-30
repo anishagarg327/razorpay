@@ -7,6 +7,8 @@ import CsvBatchScorer from './components/CsvBatchScorer';
 import AuditTrail from './components/AuditTrail';
 import { ShieldCheck, Database, Zap, Upload, Activity, ShieldAlert, Award, FileCode } from 'lucide-react';
 
+import { API_BASE } from './config';
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [metrics, setMetrics] = useState(null);
@@ -17,7 +19,7 @@ export default function App() {
   const fetchMetrics = async () => {
     try {
       setIsRefreshing(true);
-      const res = await fetch('http://localhost:8000/api/metrics');
+      const res = await fetch(`${API_BASE}/api/metrics`);
       if (res.ok) {
         const data = await res.json();
         setMetrics(data);

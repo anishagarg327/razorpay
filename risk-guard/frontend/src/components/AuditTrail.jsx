@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Database, RefreshCw, Clock, Search, Filter, ShieldCheck, ShieldAlert, AlertTriangle } from 'lucide-react';
+import { API_BASE } from '../config';
 
 export default function AuditTrail({ refreshTrigger }) {
   const [logs, setLogs] = useState([]);
@@ -11,7 +12,7 @@ export default function AuditTrail({ refreshTrigger }) {
   const fetchLogs = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/audit?limit=50');
+      const res = await fetch(`${API_BASE}/api/audit?limit=50`);
       if (!res.ok) throw new Error('Failed to fetch audit records');
       const data = await res.json();
       setLogs(data.logs || []);
