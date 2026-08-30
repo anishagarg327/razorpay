@@ -36,6 +36,18 @@ def init_db():
     conn.close()
     print(f"[*] SQLite audit_log table initialized at: {DB_PATH}")
 
+def clear_audit_logs() -> int:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) as count FROM audit_log")
+    count = cursor.fetchone()["count"]
+    cursor.execute("DELETE FROM audit_log")
+    cursor.execute("DELETE FROM sqlite_sequence WHERE name='audit_log'")
+    conn.commit()
+    conn.close()
+    print(f"[*] Cleared {count} rows from audit_log table.")
+    return count
+
 def log_prediction(
     transaction_id: str,
     risk_score: float,
@@ -127,3 +139,4 @@ def get_audit_logs(limit: int = 50) -> List[dict]:
 
 if __name__ == "__main__":
     init_db()
+    clear_audit_logs()

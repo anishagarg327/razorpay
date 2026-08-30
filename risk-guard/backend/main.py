@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 import pandas as pd
 import numpy as np
 
-from database import init_db, log_prediction, get_audit_logs
+from database import init_db, log_prediction, get_audit_logs, clear_audit_logs
 from risk_engine import get_risk_engine
 
 def _get_data_path():
@@ -89,7 +89,7 @@ def predict_transaction_risk(txn: TransactionInput):
         txn_dict = txn.model_dump()
         result = engine.predict(txn_dict)
         
-        # Log prediction to SQLite audit_log table
+        # Log prediction to SQLite audit_log table (exactly 1 row inserted per call)
         model_ver = "v1.0-rf-shap"
         log_id = log_prediction(
             transaction_id=result["transaction_id"],
@@ -341,6 +341,19 @@ def fetch_audit_logs(limit: int = Query(default=50, ge=1, le=100)):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch audit logs: {str(e)}")
+
+@app.post("/api/audit/clear")
+@app.delete("/api/audit")
+def clear_audit_trail():
+    try:
+        count = clear_audit_logs()
+        return {
+            "status": "success",
+            "message": f"Successfully cleared {count} audit records",
+            "cleared_count": count
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to clear audit trail: {str(e)}")
 
 @app.get("/api/metrics")
 def get_model_metrics():
