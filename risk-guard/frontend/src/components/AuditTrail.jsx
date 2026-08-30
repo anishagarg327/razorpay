@@ -93,6 +93,24 @@ export default function AuditTrail({ refreshTrigger }) {
             <span>Auto-refresh (5s)</span>
           </label>
 
+          {/* Clear Logs Button */}
+          <button
+            onClick={async () => {
+              if (window.confirm('Are you sure you want to clear all audit log entries for a fresh demo?')) {
+                try {
+                  await fetch(`${API_BASE}/api/audit/clear`, { method: 'POST' });
+                  fetchLogs();
+                } catch (err) {
+                  console.error('Failed to clear logs:', err);
+                }
+              }
+            }}
+            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-rose-950/60 hover:text-rose-300 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-rose-700/60 transition-all flex items-center space-x-1.5"
+            title="Reset audit trail for demo"
+          >
+            <span>Reset Trail</span>
+          </button>
+
           <button
             onClick={fetchLogs}
             disabled={loading}
