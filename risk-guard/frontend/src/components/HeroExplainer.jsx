@@ -59,7 +59,7 @@ export default function HeroExplainer({ onExploreSimulator }) {
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-            Autonomous payment risk intelligence engineered to prevent friendly fraud, chargeback losses, and account takeovers before settlement — without adding friction for verified legitimate shoppers.
+            Autonomous payment risk intelligence engineered to prevent friendly fraud, chargeback losses, and account takeovers before settlement - without adding friction for verified legitimate shoppers.
           </p>
         </div>
 

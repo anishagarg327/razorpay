@@ -1,6 +1,6 @@
-# 🛡️ Razorpay RevShield AI — Defense-Only Fraud & Chargeback Risk Manager
+# 🛡️ Razorpay RevShield AI - Defense-Only Fraud & Chargeback Risk Manager
 
-> **Razorpay AI Buildathon — Track 2: AI Risk Manager**  
+> **Razorpay AI Buildathon - Track 2: AI Risk Manager**  
 > *Autonomous, explainable payment risk defense protecting merchant revenue against chargebacks, refund abuse, and account takeovers without creating friction for legitimate shoppers.*
 
 [![Live Frontend](https://img.shields.io/badge/Frontend-Vercel-black?style=for-the-badge&logo=vercel)](https://razorpay-navy-ten.vercel.app)
@@ -78,11 +78,11 @@ Evaluated on **1,000 held-out test transactions** (80/20 Stratified Split) with 
 
 | Metric | Measured Score | Benchmark Target | Status |
 | :--- | :---: | :---: | :---: |
-| **Precision** | **80.00%** | 70% – 90% | 🎯 Optimal |
-| **Recall (Sensitivity)** | **80.00%** | 65% – 85% | 🎯 Optimal |
+| **Precision** | **80.00%** | 70% - 90% | 🎯 Optimal |
+| **Recall (Sensitivity)** | **80.00%** | 65% - 85% | 🎯 Optimal |
 | **F1-Score** | **0.8000** | > 0.75 | 🎯 Optimal |
 | **Overall Accuracy** | **98.00%** | > 95% | 🎯 Optimal |
-| **ROC-AUC** | **0.9877** | 0.85 – 0.95 | 🎯 Optimal |
+| **ROC-AUC** | **0.9877** | 0.85 - 0.95 | 🎯 Optimal |
 
 ### **Confusion Matrix (1,000 Unseen Transactions):**
 ```
@@ -104,12 +104,12 @@ Evaluated on **1,000 held-out test transactions** (80/20 Stratified Split) with 
 
 RevShield eliminates black-box scoring. `amount` follows an identical distribution across both legitimate and fraudulent transactions to eliminate artificial data leakage. Fraud detection emerges purely from multi-signal behavioral combinations:
 
-1. **`refund_count_past_90d`** (Mean \|SHAP\| = 0.0961) — Identifies serial returners and friendly fraud refund abuse.
-2. **`refund_to_order_ratio`** (Mean \|SHAP\| = 0.0877) — High proportion of returns relative to order history.
-3. **`customer_age_days`** (Mean \|SHAP\| = 0.0750) — Brand-new accounts (<14 days) carrying high risk exposure.
-4. **`shipping_billing_mismatch`** (Mean \|SHAP\| = 0.0713) — Card-not-present stolen instrument signature.
-5. **`device_change_flag`** (Mean \|SHAP\| = 0.0684) — Unrecognized browser/device fingerprint.
-6. **`order_count_past_30d`** (Mean \|SHAP\| = 0.0351) — Velocity bursts on young profiles.
+1. **`refund_count_past_90d`** (Mean \|SHAP\| = 0.0961) - Identifies serial returners and friendly fraud refund abuse.
+2. **`refund_to_order_ratio`** (Mean \|SHAP\| = 0.0877) - High proportion of returns relative to order history.
+3. **`customer_age_days`** (Mean \|SHAP\| = 0.0750) - Brand-new accounts (<14 days) carrying high risk exposure.
+4. **`shipping_billing_mismatch`** (Mean \|SHAP\| = 0.0713) - Card-not-present stolen instrument signature.
+5. **`device_change_flag`** (Mean \|SHAP\| = 0.0684) - Unrecognized browser/device fingerprint.
+6. **`order_count_past_30d`** (Mean \|SHAP\| = 0.0351) - Velocity bursts on young profiles.
 
 ---
 

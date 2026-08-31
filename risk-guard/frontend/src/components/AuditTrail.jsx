@@ -204,7 +204,7 @@ export default function AuditTrail({ refreshTrigger }) {
                     {log.transaction_id}
                   </td>
                   <td className="px-4 py-3 font-mono text-slate-300">
-                    {log.amount > 0 ? `₹${log.amount.toLocaleString('en-IN')}` : '—'}
+                    {log.amount > 0 ? `₹${log.amount.toLocaleString('en-IN')}` : '-'}
                   </td>
                   <td className="px-4 py-3 font-mono font-bold">
                     <span className={log.risk_score >= 65 ? 'text-rose-400' : log.risk_score >= 30 ? 'text-amber-300' : 'text-emerald-400'}>

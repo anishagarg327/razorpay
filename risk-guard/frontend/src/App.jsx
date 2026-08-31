@@ -105,7 +105,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
             <ShieldCheck className="w-4 h-4 text-cyan-400" />
-            <span className="text-slate-400 font-medium">Razorpay AI Buildathon — Track 2: AI Risk Manager</span>
+            <span className="text-slate-400 font-medium">Razorpay AI Buildathon - Track 2: AI Risk Manager</span>
           </div>
           <div className="flex items-center space-x-4 font-mono text-[11px]">
             <span>Model: Balanced Random Forest + SHAP TreeExplainer</span>
